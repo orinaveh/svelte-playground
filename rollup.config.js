@@ -1,5 +1,4 @@
 import svelte from 'rollup-plugin-svelte';
-import watch from "rollup-plugin-watch";
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
@@ -7,6 +6,8 @@ import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import scss from 'rollup-plugin-scss'
+import { createFilter } from 'rollup-pluginutils';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -32,14 +33,19 @@ function serve() {
 }
 
 
-function theme() {
+function theme({ includes }) {
+	const filter = createFilter(includes);
 	return {
-		writeBundle() {
-			require('child_process').spawn('npm', ['run', 'prepare'], {
-				stdio: ['ignore', 'inherit', 'inherit'],
-				shell: true
-			});
-		}
+		watchChange(id) {
+            // Does the file that just changed match one of the globs passed into
+            // this plugin?
+            if (filter(id)) {
+				require('child_process').spawn('npm', ['run', 'prepare'], {
+					stdio: ['ignore', 'inherit', 'inherit'],
+					shell: true
+				});           
+			 }          
+        },
 	};
 }
 
@@ -52,8 +58,6 @@ export default {
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
-		!production && watch({ dir: "src/theme" }),
-		!production && theme(),
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {
@@ -61,9 +65,14 @@ export default {
 				dev: !production
 			}
 		}),
+		theme({ includes: ['./src/theme/**/*.scss'] }),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
-		css({ output: 'bundle.css' }),
+		scss({
+			outputStyle: 'compressed',
+			compiler: require('sass'),
+			output: 'public/build/bundle.css'
+		}),
 		!production &&  
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
@@ -95,6 +104,6 @@ export default {
 		
 	],
 	watch: {
-		clearScreen: false
+		clearScreen: false,
 	}
 };
