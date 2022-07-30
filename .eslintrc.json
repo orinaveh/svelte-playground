@@ -1,0 +1,48 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "airbnb-typescript/base"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "extraFileExtensions": [".svelte"]
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "plugins": ["import", "svelte3", "prettier"],
+  "ignorePatterns": ["public/build/", "**/*.scss"],
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "processor": "svelte3/svelte3"
+    }
+  ],
+  "settings": {
+    "svelte3/typescript": true
+  },
+  "rules": {
+    "import/prefer-default-export": 0,
+    "linebreak-style": 0,
+    "@typescript-eslint/explicit-function-return-type": [
+      0,
+      { "allowHigherOrderFunctions": true }
+    ],
+    "@typescript-eslint/no-unused-expressions": 0,
+    "max-classes-per-file": 0,
+    "no-console": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/interface-name-prefix": 0,
+    "@typescript-eslint/no-unused-vars": 0,
+    "max-len": ["error", { "code": 160 }],
+    "no-plusplus": 0,
+    "no-param-reassign": 0,
+    "import/no-extraneous-dependencies": 0,
+    "no-underscore-dangle": 0
+  }
+}

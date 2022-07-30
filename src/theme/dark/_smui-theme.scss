@@ -5,37 +5,37 @@
 // Svelte Colors! (Dark Theme)
 
 @use '@material/theme/index' as theme with (
-  $primary: #19b7cc,
-  $secondary: color.scale(#6363a0, $whiteness: -10%),
-  $surface: color.adjust(color-palette.$grey-900, $blue: +4),
-  $background: rgb(0, 0, 0),
-  $error: color-palette.$red-700,
+    $primary: #19b7cc,
+    $secondary: color.scale(#a01919, $whiteness: -10%),
+    $surface: color.adjust(color-palette.$grey-900, $blue: +4),
+    $background: rgb(0, 0, 0),
+    $error: color-palette.$red-700
 );
 
 @use '@material/shape' as shape with (
-  $small-component-radius: 16px,
-  $medium-component-radius: 16px,
-  $large-component-radius: 4px,
+    $small-component-radius: 16px,
+    $medium-component-radius: 16px,
+    $large-component-radius: 4px
 );
 
 html,
 body {
-  background-color: theme.$background;
-  color: theme.$on-surface;
+    background-color: theme.$background;
+    color: theme.$on-surface;
 }
 
 a {
-  color: #40b3ff;
+    color: #40b3ff;
 }
 
 a:visited {
-  color: color.scale(#40b3ff, $lightness: -35%);
+    color: color.scale(#40b3ff, $lightness: -35%);
 }
 
 .mdc-card {
-  max-width: 1000px;
+    max-width: 1000px;
 }
 
 .mdc-button {
-  padding: 1.5rem 3rem;
+    padding: 1.5rem 3rem;
 }
